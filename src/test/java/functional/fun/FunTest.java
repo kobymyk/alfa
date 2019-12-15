@@ -6,8 +6,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class FunTest {
     @Test
@@ -26,8 +25,24 @@ public class FunTest {
         List<String> list = Arrays.asList("a", "b", "c");
         List<String> expected = Arrays.asList("A", "B", "C");
 
-        UnaryReplace.replace(list);
+        ListFun.replace(list);
         assertEquals(expected, list);
+    }
+
+    @Test
+    public void forEach() {
+        List<Record> list = new ArrayList<>(2);
+        Record record = new Record();
+        record.id = "id[1]";
+        record.name = "name[1]";
+        list.add(record);
+        // modified
+        ListFun.listForEach(list);
+        assertNotEquals("id[1]", list.get(0).id);
+        // modified as well
+        record.id = "id[1]";
+        ListFun.streamForEach(list);
+        assertNotEquals("id[1]", list.get(0).id);
     }
 
     @Test
