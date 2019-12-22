@@ -11,7 +11,7 @@ public class ObjectMethodReference {
     }
 
     public <T> FunctionalConverter<T> getAnyConverter() {
-        ObjectAnyConverter converter = new ObjectAnyConverter(src);
+        ObjectAnyConverter<T> converter = new ObjectAnyConverter(src);
         FunctionalConverter<T> result = converter.transform();
         return result;
     }
