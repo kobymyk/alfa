@@ -1,20 +1,25 @@
 package lang.methodref;
 
-import org.junit.Assert;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 public class ObjectMethodReferenceTest {
-    ObjectSrc src = new ObjectSrc();
+    public ObjectSrc src = new ObjectSrc();
+
     @Test
     public void converter() {
-        ObjectMethodReference methodReference = new ObjectMethodReference();
+        ObjectMethodReference methodReference = new ObjectMethodReference() {{
+            setSrc(src);
+        }};
+
         src.id = 1;
-        methodReference.src = src;
-
         ObjectTarget actual = methodReference.getSrcConverter().apply(ObjectSrcConvertUtils::toObjectTarget);
-        Assert.assertEquals("1", actual.id);
+        assertEquals("1", actual.id);
 
+        src.id = 2;
         FunctionalConverter<ObjectSrc> converter = methodReference.getAnyConverter();
         actual = converter.apply(ObjectSrcConvertUtils::toObjectTarget);
+        assertEquals("2", actual.id);
     }
 }
