@@ -1,7 +1,7 @@
 package lang.methodref;
 
 public class ObjectMethodReference {
-    public ObjectSrc src;
+    private ObjectSrc src;
 
     public FunctionalConverter<ObjectSrc> getSrcConverter() {
         ObjectSrcConverter converter = new ObjectSrcConverter(src);
@@ -10,9 +10,17 @@ public class ObjectMethodReference {
         //ObjectTarget result  = objectSrcConverter.transform().apply(ObjectSrcConvertUtils::toObjectTarget);
     }
 
-    public <T> FunctionalConverter<T> getAnyConverter() {
-        ObjectAnyConverter<T> converter = new ObjectAnyConverter(src);
-        FunctionalConverter<T> result = converter.transform();
+    public FunctionalConverter getAnyConverter() {
+        //ObjectAnyConverter<T> converter = new ObjectAnyConverter(src);
+        FunctionalConverter<ObjectSrc> result = new ObjectAnyConverter<>(src).transform();
         return result;
+    }
+
+    public ObjectSrc getSrc() {
+        return src;
+    }
+
+    public void setSrc(ObjectSrc src) {
+        this.src = src;
     }
 }
