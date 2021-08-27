@@ -95,4 +95,15 @@ public class FunTest {
         Thread thread = new Thread(runnable);
         thread.start();
     }
+
+    @Test
+    public void unaryOperator() {
+        UnaryOperator<String> stringMapper = value -> value;
+        Record source = new Record();
+        source.name = "name";
+        Record target = new Record();
+
+        FunctionUtil.setIfNotEmpty(source.name, stringMapper, target::setName);
+        assertEquals(source.name, target.name);
+    }
 }
