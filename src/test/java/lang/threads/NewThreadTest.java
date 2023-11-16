@@ -2,6 +2,8 @@ package lang.threads;
 
 import org.junit.Test;
 
+import java.util.function.Function;
+
 public class NewThreadTest {
     @Test
     public void start() throws InterruptedException {
@@ -15,5 +17,22 @@ public class NewThreadTest {
         //thread.join();
         System.out.println(resource.getData());
         //System.out.println(Thread.currentThread().getName());
+    }
+
+    @Test
+    public void synchronizeStatic() {
+        StaticResource.i = 2;
+        Runnable runnable = () -> {
+            System.out.println(Thread.currentThread().getName());
+            StaticResource.increment();
+        };
+        Thread t1 = new Thread(runnable);
+        t1.start();
+        //
+        Thread t2 = new Thread(runnable);
+        t2.setName("Thread-B");
+        t2.start();
+
+        System.out.println(StaticResource.i);
     }
 }

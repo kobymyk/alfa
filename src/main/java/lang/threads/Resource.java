@@ -11,7 +11,7 @@ public class Resource {
         this.data = data;
     }
 
-    public  void increment() {
+    public void increment() {
         synchronized (this) {
             int newData = data;
             if (Thread.currentThread().getName().equals("Thread-B")) {
