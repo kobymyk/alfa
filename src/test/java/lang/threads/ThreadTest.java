@@ -2,9 +2,7 @@ package lang.threads;
 
 import org.junit.Test;
 
-import java.util.function.Function;
-
-public class NewThreadTest {
+public class ThreadTest {
     @Test
     public void start() throws InterruptedException {
         Resource resource = new Resource();
@@ -34,5 +32,31 @@ public class NewThreadTest {
         t2.start();
 
         System.out.println(StaticResource.i);
+    }
+
+    @Test
+    public void waitNotify() throws InterruptedException {
+        Thread t = new Thread() {
+            int total;
+            @Override
+            public void run() {
+                synchronized (this) {
+                    for (int i = 0; i < 10; i++) {
+                        total += i;
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    notify();
+                }
+            }
+        };
+        t.start();
+        //
+        synchronized (t) {
+            t.wait();
+        }
     }
 }
