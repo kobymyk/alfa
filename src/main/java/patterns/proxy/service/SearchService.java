@@ -1,5 +1,7 @@
 package patterns.proxy.service;
 
+import patterns.proxy.model.Document;
+
 public interface SearchService {
-    void searchDocument();
+    Document searchDocument(String documentName);
 }

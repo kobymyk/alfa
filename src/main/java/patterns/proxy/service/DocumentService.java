@@ -1,5 +1,7 @@
 package patterns.proxy.service;
 
+import patterns.proxy.model.Document;
+
 public interface DocumentService {
-    void loadDocument();
+    int saveDocument(Document document);
 }
