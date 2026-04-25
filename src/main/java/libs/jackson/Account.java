@@ -1,7 +1,7 @@
 package libs.jackson;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import libs.jackson.DealViews.*;
+import libs.jackson.DataViews.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,12 +12,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account {
-    @JsonView({RequestDeal.class})
+    @JsonView(Warn.class)
     public int id;
-    @JsonView({UpdateDeal.class, RequestDeal.class})
+    @JsonView(Info.class)
     public String name;
     public String email;
-    //todo: test
-    @JsonView({UpdateDeal.Account.class})
-    public String internal;
+    @JsonView(Debug.class)
+    public String password;
 }

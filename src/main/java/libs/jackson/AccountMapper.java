@@ -1,27 +1,28 @@
 package libs.jackson;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 
 import java.io.File;
 
-import static libs.jackson.DealViews.*;
+import static libs.jackson.DataViews.*;
 
 public class AccountMapper {
     static ObjectMapper mapper = getObjectMapper();
 
-    //Spring: @JsonView(REQUEST_ALL)
-    public String toRequest(Account account) throws JsonProcessingException {
-        return mapper.writerWithView(REQUEST_DEAL)
+    @SneakyThrows
+    public String toStringByView(Account account, Class<?> viewClass) {
+        return mapper.writerWithView(viewClass)
                 .writeValueAsString(account);
     }
 
-    //@JsonView(UpdateView.class)
-    public String toUpdate(Account account) throws JsonProcessingException {
-        return mapper.writerWithView(UPDATE_DEAL)
-                .writeValueAsString(account);
+    @SneakyThrows
+    //works for controller
+    @JsonView(Warn.class)
+    public String toStringForWarn(Account account) {
+        return mapper.writeValueAsString(account);
     }
 
     @SneakyThrows
@@ -33,6 +34,7 @@ public class AccountMapper {
     private static ObjectMapper getObjectMapper() {
         ObjectMapper result = new ObjectMapper();
         result.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+        //result.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
         result.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return result;
     }
